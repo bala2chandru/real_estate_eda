@@ -104,13 +104,13 @@ label {
 # ---------------------- LOAD DATA ----------------------
 @st.cache_data
 def load_data():
-    return pd.read_csv(r"D:\real_estate_eda\data\cleaned_dataset.csv")
+    return pd.read_csv("../data/cleaned_dataset.csv")
 
 df = load_data()
 
-# Load ML model
-model = pickle.load(open("app/price_model.pkl", "rb"))
-encoders = pickle.load(open("app/encoders.pkl", "rb"))
+model = pickle.load(open("price_model.pkl", "rb"))
+encoders = pickle.load(open("encoders.pkl", "rb"))
+
 
 # ---------------------- HEADER ----------------------
 st.title("🏠 Real Estate Analytics & Price Prediction Dashboard")
