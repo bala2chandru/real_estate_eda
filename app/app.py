@@ -7,7 +7,7 @@ import pickle
 
 st.set_page_config(page_title="Real Estate EDA Dashboard", layout="wide")
 
-# ---------------------- CUSTOM UI THEME ----------------------
+# ---------------------- CUSTOM UI ----------------------
 st.markdown("""
 <style>
 
@@ -16,7 +16,6 @@ st.markdown("""
     color: #ffffff !important;
 }
 
-/* Main container */
 .block-container {
     background: rgba(17, 24, 39, 0.85);
     padding: 2rem;
@@ -24,13 +23,11 @@ st.markdown("""
     border: 1px solid rgba(148, 163, 184, 0.4);
 }
 
-/* Titles */
 h1, h2, h3 {
     color: #ffffff !important;
     font-weight: 700;
 }
 
-/* Sidebar */
 [data-testid="stSidebar"] {
     background: #111827;
 }
@@ -38,9 +35,7 @@ h1, h2, h3 {
     color: #e5e7eb !important;
 }
 
-/* ---------------- INPUT FIX (WORKS 100%) ---------------- */
-
-/* Number input */
+/* INPUT FIX */
 div[data-baseweb="input"] input {
     background-color: #ffffff !important;
     color: #000000 !important;
@@ -49,32 +44,22 @@ div[data-baseweb="input"] input {
     font-size: 16px !important;
 }
 
-/* Text input */
-input[type="text"] {
-    background-color: #ffffff !important;
-    color: #000000 !important;
-}
-
-/* Dropdown select */
 div[data-baseweb="select"] > div {
     background-color: #ffffff !important;
     color: #000000 !important;
 }
 
-/* Dropdown menu items */
 ul[data-baseweb="menu"] li {
     background-color: #ffffff !important;
     color: #000000 !important;
 }
 
-/* Labels */
 label {
     color: #ffffff !important;
     font-size: 16px !important;
     font-weight: 600 !important;
 }
 
-/* Buttons */
 .stButton>button {
     background: #2563eb;
     color: #ffffff !important;
@@ -88,7 +73,6 @@ label {
     background: #1d4ed8;
 }
 
-/* Tabs */
 [data-testid="stTabs"] button {
     color: #e5e7eb !important;
 }
@@ -99,8 +83,6 @@ label {
 </style>
 """, unsafe_allow_html=True)
 
-
-
 # ---------------------- LOAD DATA ----------------------
 @st.cache_data
 def load_data():
@@ -108,9 +90,9 @@ def load_data():
 
 df = load_data()
 
+# ---------------------- LOAD MODEL ----------------------
 model = pickle.load(open("price_model.pkl", "rb"))
 encoders = pickle.load(open("encoders.pkl", "rb"))
-
 
 # ---------------------- HEADER ----------------------
 st.title("🏠 Real Estate Analytics & Price Prediction Dashboard")
@@ -210,9 +192,8 @@ with tab7:
 
     if st.button("Predict Price"):
         age = 2024 - build_year
-        price_per_sqft = 0  # Not known for new property, model will adjust
+        price_per_sqft = 0
 
-        # Encode categorical inputs
         loc_enc = encoders["Location"].transform([location])[0]
         street_enc = encoders["Street_Type"].transform([street])[0]
         furn_enc = encoders["Furnishing"].transform([furnishing])[0]
